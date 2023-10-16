@@ -17,12 +17,15 @@ app.use(express.urlencoded({ extended: true }));
 
 const moduleRoutes = require("./app/routes");
 const UrlRoutes = require("./app/modules/url/url.route");
+const UserRoutes = require("./app/modules/user/user.route");
+const { globalErrorHandler } = require("./app/middlewares/globalErrorHandler");
 
 
 
 app.use("/", UrlRoutes);
+app.use("/api/v1", moduleRoutes);
 
-
+app.use(globalErrorHandler)
 app.use((req, res, next) => {
     res.status(404).json({
       success: false,
