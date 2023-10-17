@@ -7,8 +7,8 @@ const bcrypt = require('bcrypt');
 const login = async (data) => {
 
   const {email, password} = data;
-  //creating insatnce method
-  
+
+
   const isUserExist = await User.findOne({email});
 
   if (!isUserExist) {
@@ -21,11 +21,7 @@ const login = async (data) => {
   ) {
     throw new ApiError(401, 'Password is incorrect');
   }
-//
-  // const isPasswordMatched = await user.isPasswordMatched(password, isUserExist.password);
-  // if (isUserExist.password && !isPasswordMatched) {
-  //   throw new ApiError(httpStatus.UNAUTHORIZED, "password is incorrect");
-  // }
+
   //create accesstoken & refresh token
   const {_id: userId, email: userEmail} = isUserExist;
 
@@ -34,6 +30,7 @@ const login = async (data) => {
     config.jwt.secret ,
     config.jwt.expires_in
   );
+
   const refreshToken = jwtHelpers.createToken(
     { userId, userEmail },
     config.jwt.refresh_secret,
