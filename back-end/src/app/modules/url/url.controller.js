@@ -1,4 +1,6 @@
+const { catchAsync } = require("../../../shared/catchAsync");
 const generateShortUrl = require("../../../shared/generateShortUrl");
+const { sendResponse } = require("../../../shared/sendResponse");
 const { urlServices } = require("./url.service");
 
 const createShortUrl = async (req, res) => {
@@ -33,7 +35,20 @@ const redirectUrl = async (req, res) => {
   }
 };
 
+const getAllUrlController = catchAsync(async (req, res) => {
+
+  const result = await urlServices.getAllUrlService();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Urls Retrive successfully!!",
+    data: result,
+  });
+});
+
 exports.urlController = {
   createShortUrl,
   redirectUrl,
+  getAllUrlController
 };
